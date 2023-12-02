@@ -1,9 +1,23 @@
+import { renderForm } from "./renderForm";
+
 export function renderLogin() {
+  let isLoginMod = true;
+  const renderForm = () => {
   const app = document.querySelector('.container')
 
   app.innerHTML =
     `
+    <div> ${isLoginMod ? 'Вход' : 'Регистрация'}
     <div class="add-form">
+    ${isLoginMod ? '' : `<input
+    type="text"
+    class="user-name"
+    placeholder="Введите ваше имя"
+    id="add-form-name"
+    ;
+  />`}
+
+    <br>
     <input
       type="text"
       class="add-form-name"
@@ -19,15 +33,26 @@ export function renderLogin() {
       id="add-form-pass"
       ;
     />
-      <button class="add-form-button" id="add-button-auth">Войти</button>
+      <button class="add-form-button" id="add-button-auth">${isLoginMod ? 'Войти' : 'Зарегистрироваться'}</button>
+      <button class="add-form-button toggle-btn" id="add-button-auth">${isLoginMod ? 'К регистрации' : 'ко входу'}</button>
     </div>
   </div>
 
 </div>
+</div>
     `
 }
 
-appEl.innerHTML = appHtml;
+// appEl.innerHTML = appHtml;
+
+
+document.getElementById("toggle-btn").addEventListener("click", () => {
+  isLoginMod = !isLoginMod;
+});
+
+
+
+
 
 
 
@@ -58,4 +83,8 @@ document.getElementById("add-button-auth").addEventListener("click", () => {
     //TODO: Выводить alert красиво
     alert(error.message)
   })
+
+  
 });
+renderForm();
+}
