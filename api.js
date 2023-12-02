@@ -1,3 +1,6 @@
+//https://github.com/Vladimir96Nikiforov/homework1.1-webdev-dom-homework-main
+
+
 import { renderComments } from "./render.js";
 
 const host = 'https://wedev-api.sky.pro/api/v2/Vladimir-Nikiforov/comments';
