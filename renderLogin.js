@@ -1,4 +1,6 @@
-import { renderForm } from "./renderForm";
+import { loginUserApi } from "./api.js";
+import { setToken } from "./index.js";
+import { renderForm } from "./renderForm.js";
 
 export function renderLogin() {
   let isLoginMod = true;
@@ -34,22 +36,22 @@ export function renderLogin() {
       ;
     />
       <button class="add-form-button" id="add-button-auth">${isLoginMod ? 'Войти' : 'Зарегистрироваться'}</button>
-      <button class="add-form-button toggle-btn" id="add-button-auth">${isLoginMod ? 'К регистрации' : 'ко входу'}</button>
+      <button class="add-form-button toggle-btn">${isLoginMod ? 'К регистрации' : 'ко входу'}</button>
     </div>
   </div>
 
 </div>
 </div>
     `
-}
+
 
 // appEl.innerHTML = appHtml;
 
-
-document.getElementById("toggle-btn").addEventListener("click", () => {
+console.log(document.querySelector(".toggle-btn"));
+document.querySelector(".toggle-btn").addEventListener("click", () => {
   isLoginMod = !isLoginMod;
+  renderForm();
 });
-
 
 
 
@@ -75,16 +77,22 @@ document.getElementById("add-button-auth").addEventListener("click", () => {
     password: password,
   }).then((user) => {
 
-  setToken(`Bearer ${user.user.token}`);
+  setToken(`Bearer ${user.token}`);
   fetchTodosAndRender();
     
 
-  }).catch(erroe => {
+  }).catch(error => {
     //TODO: Выводить alert красиво
     alert(error.message)
   })
 
   
 });
+}
 renderForm();
 }
+
+
+
+
+

@@ -1,10 +1,11 @@
 //https://github.com/Vladimir96Nikiforov/homework1.1-webdev-dom-homework-main
 
 
+import { getToken } from "./index.js";
 import { renderComments } from "./render.js";
 
 const host = 'https://wedev-api.sky.pro/api/v2/Vladimir-Nikiforov/comments';
-const token = 'Bearer asb4c4boc86gasb4c4boc86g37k3bk3cg3c03ck3k37w3cc3bo3b8';
+
 
 
 
@@ -14,7 +15,7 @@ export function getAPI() {
         {
             method: 'GET',
             headers: {
-                Authorization: token,
+                Authorization: getToken(),
             }
         }
     );
@@ -62,7 +63,7 @@ export function postAPI() {
         {
             method: 'POST',
             headers: {
-                Authorization: token,
+                Authorization: getToken(),
             },
             body: JSON.stringify({
                 text: commentText.value,
@@ -116,11 +117,9 @@ export function postAPI() {
         });
 }
 
-G
-
 
 export function loginUserApi(login, password) {
-    fetch(
+    return fetch(
         host,
         {
             method: 'POST',
@@ -128,12 +127,11 @@ export function loginUserApi(login, password) {
                 login,
                 password,
             }),
-        }.then((response) =>{
+        }).then((response) =>{
             if(response.status === 400){
                 throw new Error('Неверный логин или пароль')
             }
             return response.json();
         })
-    )
 
 }
