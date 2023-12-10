@@ -6,7 +6,8 @@ import { renderComments } from "./render.js";
 
 const host = 'https://wedev-api.sky.pro/api/v2/Vladimir-Nikiforov/comments';
 
-
+const loginUrl = 'https://wedev-api.sky.pro/api/user/login';
+const registerUserUrl = 'https://wedev-api.sky.pro/api/user';
 
 
 export function getAPI() {
@@ -120,11 +121,29 @@ export function postAPI() {
 
 export function loginUserApi(login, password) {
     return fetch(
-        host,
+        loginUrl,
         {
             method: 'POST',
             body: JSON.stringify({
                 login,
+                password,
+            }),
+        }).then((response) =>{
+            if(response.status === 400){
+                throw new Error('Неверный логин или пароль')
+            }
+            return response.json();
+        })
+
+}
+export function registerUserApi(login, name, password) {
+    return fetch(
+        registerUserUrl,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                login,
+                name,
                 password,
             }),
         }).then((response) =>{

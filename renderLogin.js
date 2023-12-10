@@ -1,4 +1,4 @@
-import { loginUserApi } from "./api.js";
+import { getAPI, loginUserApi, registerUserApi } from "./api.js";
 import { setToken } from "./index.js";
 import { renderForm } from "./renderForm.js";
 
@@ -61,6 +61,7 @@ document.querySelector(".toggle-btn").addEventListener("click", () => {
 document.getElementById("add-button-auth").addEventListener("click", () => {
   const login = document.getElementById("add-form-login").value;
   const password = document.getElementById("add-form-pass").value;
+  
 
   if(!login){
     alert('Введите логин');
@@ -72,19 +73,43 @@ document.getElementById("add-button-auth").addEventListener("click", () => {
     return;
   }
 
-  loginUserApi({
-    login: login,
-    password: password,
-  }).then((user) => {
 
-  setToken(`Bearer ${user.token}`);
-  fetchTodosAndRender();
+
+   if(isLoginMod){
+    loginUserApi(login, password).then((res) => {
+      setToken(`Bearer ${res.user.token}`);
+      getAPI();
+        
     
+      }).catch(error => {
+        //TODO: Выводить alert красиво
+        alert(error.message)
+      })
+   }
+   else{
+    const name = document.getElementById("add-form-name").value;
 
-  }).catch(error => {
-    //TODO: Выводить alert красиво
-    alert(error.message)
-  })
+    if(!name){
+      alert('Введите имя');
+      return;
+    }
+
+    registerUserApi(login, name, password).then((res) => {
+
+      setToken(`Bearer ${res.user.token}`);
+      getAPI();
+        
+    
+      }).catch(error => {
+        //TODO: Выводить alert красиво
+        alert(error.message)
+      })
+
+   }
+
+
+
+  
 
   
 });
