@@ -1,5 +1,5 @@
 import { getAPI, loginUserApi, registerUserApi } from "./api.js";
-import { setToken } from "./index.js";
+import {setToken, setUser} from "./store.js";
 import { renderForm } from "./renderForm.js";
 
 export function renderLogin() {
@@ -77,14 +77,15 @@ document.getElementById("add-button-auth").addEventListener("click", () => {
 
    if(isLoginMod){
     loginUserApi(login, password).then((res) => {
+      setUser(res.user);
       setToken(`Bearer ${res.user.token}`);
       getAPI();
         
     
-      }).catch(error => {
-        //TODO: Выводить alert красиво
-        alert(error.message)
-      })
+    }).catch(error => {
+      //TODO: Выводить alert красиво
+      alert(error.message)
+    })
    }
    else{
     const name = document.getElementById("add-form-name").value;
@@ -96,10 +97,10 @@ document.getElementById("add-button-auth").addEventListener("click", () => {
 
     registerUserApi(login, name, password).then((res) => {
 
-      setToken(`Bearer ${res.user.token}`);
-      getAPI();
-        
-    
+        setUser(res.user);
+        setToken(`Bearer ${res.user.token}`);
+        getAPI();
+
       }).catch(error => {
         //TODO: Выводить alert красиво
         alert(error.message)

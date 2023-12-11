@@ -1,7 +1,7 @@
 //https://github.com/Vladimir96Nikiforov/homework1.1-webdev-dom-homework-main
 
 
-import { getToken } from "./index.js";
+import { getToken } from "./store.js";
 import { renderComments } from "./render.js";
 
 const host = 'https://wedev-api.sky.pro/api/v2/Vladimir-Nikiforov/comments';
@@ -40,15 +40,21 @@ export function getAPI() {
             renderComments(responseData.comments);
         })
         .catch((error) => {
-            console.log(error);
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
+
+            /* расшифровка ошибки */
+
             if (error.message === 'Ошибка 500') {
-                alert(
-                    'Ошибка при получении комментариев, пожалуйста, попробуйте позже'
-                );
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
             }
-            // console.error(error.message);
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
         });
-    /* тут возможна только 500 ошибка*/
 }
 
 
@@ -134,6 +140,28 @@ export function loginUserApi(login, password) {
             }
             return response.json();
         })
+        .catch((error) => {
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
+
+            /* расшифровка ошибки */
+
+            if (error.message === 'Ошибка 500') {
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
+            }
+
+            if (error.message === 'Ошибка 400') {
+                /*причина этой ошибки */
+                alert('Уже существует');
+                return;
+            }
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
+        });
 
 }
 export function registerUserApi(login, name, password) {
@@ -152,5 +180,67 @@ export function registerUserApi(login, name, password) {
             }
             return response.json();
         })
+        .catch((error) => {
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
 
+            /* расшифровка ошибки */
+
+            if (error.message === 'Ошибка 500') {
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
+            }
+
+            if (error.message === 'Ошибка 400') {
+                /*причина этой ошибки */
+                alert('Неверный логин или пароль');
+                return;
+            }
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
+        });
+
+}
+export function sendComment(text){
+    return fetch(
+        host,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                text,
+            }),
+            headers: {
+                Authorization: getToken(),
+            }
+        }).then((response) =>{
+            if(response.status === 400){
+                throw new Error('Неверный логин или пароль')
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
+
+            /* расшифровка ошибки */
+
+            if (error.message === 'Ошибка 500') {
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
+            }
+
+            if (error.message === 'Ошибка 400') {
+                /*причина этой ошибки */
+                alert('Имя и комментарий должны быть не короче 3 символов');
+                return;
+            }
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
+        });
 }

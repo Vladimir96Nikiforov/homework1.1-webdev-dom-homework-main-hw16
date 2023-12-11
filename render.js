@@ -1,7 +1,10 @@
+import { getAPI, sendComment} from "./api.js";
 import { renderLogin } from "./renderLogin.js";
+import {getUser} from "./store.js";
+
 
 export function renderComments(people) {
-
+  const user = getUser();
   const mailAppHTML = document.querySelector('.container');
 
   // if (!token) {
@@ -58,7 +61,26 @@ export function renderComments(people) {
     .join('');
 
   console.log(likesUlHTML)
-
+  const sendCommentFormHtml = `
+  <div class="add-form">
+  <input
+  type="text"
+  class="add-form-name"
+  placeholder="Имя"
+  value="${user?.name}"
+  readonly
+/>
+<br>
+<input
+  type="text"
+  class="add-form-name"
+  placeholder="Введите комментарий"
+  id="comment-form-input"
+/>
+<br>
+<button class="send-comment-button add-form-button">отправить</button>
+<div>
+  `
   const appHTML = `
         <ul class="comments" id="comments">
    
@@ -67,13 +89,24 @@ export function renderComments(people) {
     
        </ul>
     
-      <p>чтобы добавить комментарий, <button class="auth-button">авторизуйтесь</button></p>
+    ${user ? sendCommentFormHtml : '<p>чтобы добавить комментарий, <button class="auth-button">авторизуйтесь</button></p>'}    
         `;
   mailAppHTML.innerHTML = appHTML;
-  const authBtn = document.querySelector('.auth-button');
-  authBtn.addEventListener('click', () => {
-    renderLogin()
-  })
+
+  if (!user) {
+    const authBtn = document.querySelector('.auth-button');
+    authBtn.addEventListener('click', () => {
+      renderLogin()
+    })
+  } else {
+    const sendCommentButton = document.querySelector('.send-comment-button');
+    sendCommentButton.addEventListener('click', () => {
+    const commentValue = document.getElementById("comment-form-input").value
+    sendComment(commentValue)
+    .then(() => {getAPI()})
+  
+    })
+  }
 
   const name = document.getElementById("add-form-name");
   const commentText = document.getElementById("add-form-text");
