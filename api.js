@@ -1,8 +1,13 @@
+//https://github.com/Vladimir96Nikiforov/homework1.1-webdev-dom-homework-main
+
+
+import { getToken } from "./store.js";
 import { renderComments } from "./render.js";
 
 const host = 'https://wedev-api.sky.pro/api/v2/Vladimir-Nikiforov/comments';
-const token = 'Bearer asb4c4boc86gasb4c4boc86g37k3bk3cg3c03ck3k37w3cc3bo3b8';
 
+const loginUrl = 'https://wedev-api.sky.pro/api/user/login';
+const registerUserUrl = 'https://wedev-api.sky.pro/api/user';
 
 
 export function getAPI() {
@@ -11,7 +16,7 @@ export function getAPI() {
         {
             method: 'GET',
             headers: {
-                Authorization: token,
+                Authorization: getToken(),
             }
         }
     );
@@ -35,15 +40,21 @@ export function getAPI() {
             renderComments(responseData.comments);
         })
         .catch((error) => {
-            console.log(error);
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
+
+            /* расшифровка ошибки */
+
             if (error.message === 'Ошибка 500') {
-                alert(
-                    'Ошибка при получении комментариев, пожалуйста, попробуйте позже'
-                );
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
             }
-            // console.error(error.message);
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
         });
-    /* тут возможна только 500 ошибка*/
 }
 
 
@@ -59,7 +70,7 @@ export function postAPI() {
         {
             method: 'POST',
             headers: {
-                Authorization: token,
+                Authorization: getToken(),
             },
             body: JSON.stringify({
                 text: commentText.value,
@@ -114,23 +125,122 @@ export function postAPI() {
 }
 
 
-
-
 export function loginUserApi(login, password) {
-    fetch(
-        host,
+    return fetch(
+        loginUrl,
         {
             method: 'POST',
             body: JSON.stringify({
                 login,
                 password,
             }),
-        }.then((response) =>{
+        }).then((response) =>{
             if(response.status === 400){
                 throw new Error('Неверный логин или пароль')
             }
             return response.json();
         })
-    )
+        .catch((error) => {
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
 
+            /* расшифровка ошибки */
+
+            if (error.message === 'Ошибка 500') {
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
+            }
+
+            if (error.message === 'Ошибка 400') {
+                /*причина этой ошибки */
+                alert('Уже существует');
+                return;
+            }
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
+        });
+
+}
+export function registerUserApi(login, name, password) {
+    return fetch(
+        registerUserUrl,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                login,
+                name,
+                password,
+            }),
+        }).then((response) =>{
+            if(response.status === 400){
+                throw new Error('Неверный логин или пароль')
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
+
+            /* расшифровка ошибки */
+
+            if (error.message === 'Ошибка 500') {
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
+            }
+
+            if (error.message === 'Ошибка 400') {
+                /*причина этой ошибки */
+                alert('Неверный логин или пароль');
+                return;
+            }
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
+        });
+
+}
+export function sendComment(text){
+    return fetch(
+        host,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                text,
+            }),
+            headers: {
+                Authorization: getToken(),
+            }
+        }).then((response) =>{
+            if(response.status === 400){
+                throw new Error('Неверный логин или пароль')
+            }
+            return response.json();
+        })
+        .catch((error) => {
+            buttonElement.disabled = false;
+            buttonElement.textContent = 'Написать';
+
+            /* расшифровка ошибки */
+
+            if (error.message === 'Ошибка 500') {
+                alert('Ошибка сервера, попробуйте позже');
+                /*return, ибо проверять другие ошибки уже будет не нужно */
+                return;
+            }
+
+            if (error.message === 'Ошибка 400') {
+                /*причина этой ошибки */
+                alert('Имя и комментарий должны быть не короче 3 символов');
+                return;
+            }
+
+            alert('Кажется, у вас сломался интернет, попробуйте позже');
+
+            console.log(error);
+        });
 }

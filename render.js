@@ -1,7 +1,10 @@
+import { getAPI, sendComment} from "./api.js";
 import { renderLogin } from "./renderLogin.js";
+import {getUser} from "./store.js";
+
 
 export function renderComments(people) {
-
+  const user = getUser();
   const mailAppHTML = document.querySelector('.container');
 
   // if (!token) {
@@ -29,6 +32,70 @@ export function renderComments(people) {
   // </div>`
 
   // }
+
+
+
+
+
+  // let date = new Date();
+  // let output = String(date.getDate()) + '.' + String(date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+
+//   console.log(comments.innerHTML);
+
+//   buttonElement.addEventListener('click', () => {
+//     if (name.value === "")
+//       {
+//         name.style.backgroundColor = '#ff7d7d';
+//         return;
+//       }
+//     if (commentText.value === "")
+//       {
+//         commentText.style.backgroundColor = '#ff7d7d';
+//         return;
+//       }
+//     const oldComments = comments.innerHTML;
+//     comments.innerHTML = oldComments + `<li class="comment">
+//         <div class="comment-header">
+//           <div>${name.value} </div>
+//           <div>${output}</div>
+//         </div>
+//         <div class="comment-body">
+//           <div class="comment-text">
+//             ${commentText.value}
+//           </div>
+//         </div>
+//         <div class="comment-footer">
+//           <div class="likes">
+//             <span class="likes-counter" id="likes-counter">0</span>
+//             <button class="like-button" id="likeButton"></button>
+//           </div>
+//         </div>`
+
+
+
+//   const people = [
+//     {
+//       name: "Глеб Фокин",
+//       descr: "Это будет первый комментарий на этой странице",
+//       likesAmount: 3,
+//       isLike: false,
+//       date: "12.02.22 12:18"
+//     },
+//     {
+//       name: "Варвара Н.",
+//       descr: "Мне нравится как оформлена эта страница! ❤",
+//       likesAmount: 76,
+//       isLike: true,
+//       date: "13.02.22 19:22"
+//     },
+//   ];
+
+// });
+
+
+
+
+
 
   console.log(people)
   const likesUlHTML = people
@@ -58,7 +125,26 @@ export function renderComments(people) {
     .join('');
 
   console.log(likesUlHTML)
-
+  const sendCommentFormHtml = `
+  <div class="add-form">
+  <input
+  type="text"
+  class="add-form-name"
+  placeholder="Имя"
+  value="${user?.name}"
+  readonly
+/>
+<br>
+<input
+  type="text"
+  class="add-form-name"
+  placeholder="Введите комментарий"
+  id="comment-form-input"
+/>
+<br>
+<button class="send-comment-button add-form-button">отправить</button>
+<div>
+  `
   const appHTML = `
         <ul class="comments" id="comments">
    
@@ -67,13 +153,24 @@ export function renderComments(people) {
     
        </ul>
     
-      <p>чтобы добавить комментарий, <button class="auth-button">авторизуйтесь</button></p>
+    ${user ? sendCommentFormHtml : '<p>чтобы добавить комментарий, <button class="auth-button">авторизуйтесь</button></p>'}    
         `;
   mailAppHTML.innerHTML = appHTML;
-  const authBtn = document.querySelector('.auth-button');
-  authBtn.addEventListener('click', () => {
-    renderLogin()
-  })
+
+  if (!user) {
+    const authBtn = document.querySelector('.auth-button');
+    authBtn.addEventListener('click', () => {
+      renderLogin()
+    })
+  } else {
+    const sendCommentButton = document.querySelector('.send-comment-button');
+    sendCommentButton.addEventListener('click', () => {
+    const commentValue = document.getElementById("comment-form-input").value
+    sendComment(commentValue)
+    .then(() => {getAPI()})
+  
+    })
+  }
 
   const name = document.getElementById("add-form-name");
   const commentText = document.getElementById("add-form-text");
