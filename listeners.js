@@ -29,6 +29,23 @@ export function likeEventListeners() {
   }
 
 
+
+
+
+  // export function handlinerAnswer() {
+  //   const AnswerWrite = document.querySelector('.comment-text');
+  //   AnswerWrite.addEventListener('click', () => {
+  //     console.log('click');
+  //     this.postAPI();
+  //     this.renderComments();
+  //   });
+  // }
+
+
+
+
+
+
   export function commentEventListeners() {
     const addFormTexts = document.querySelectorAll('.comment-text');
     for (const addFormText of addFormTexts) {

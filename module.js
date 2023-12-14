@@ -17,40 +17,40 @@ const helper = {
 
 
 
-  // time: function time() {
-  //   buttonElement.addEventListener('click', () => {
-  //     if (name.value === '') {
-  //       name.style.backgroundColor = '#ff7d7d';
-  //       return;
-  //     }
-  //     if (commentText.value === '') {
-  //       commentText.style.backgroundColor = '#ff7d7d';
-  //       return;
-  //     }
+//   time: function time() {
+//     buttonElement.addEventListener('click', () => {
+//       if (name.value === '') {
+//         name.style.backgroundColor = '#ff7d7d';
+//         return;
+//       }
+//       if (commentText.value === '') {
+//         commentText.style.backgroundColor = '#ff7d7d';
+//         return;
+//       }
 
-  //     let date = new Date();
+//       let date = new Date();
 
-  //     let output = String(date.getDate()) + 'z';
-  //     '.' +
-  //       String(date.getMonth() + 1) +
-  //       '.' +
-  //       date.getFullYear() +
-  //       ' ' +
-  //       date.getHours() +
-  //       ':' +
-  //       date.getMinutes();
+//       let output = String(date.getDate()) + 'z';
+//       '.' +
+//         String(date.getMonth() + 1) +
+//         '.' +
+//         date.getFullYear() +
+//         ' ' +
+//         date.getHours() +
+//         ':' +
+//         date.getMinutes();
 
-  //     people.push({
-  //       name: name.value.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
-  //       descr: commentText.value
-  //         .replaceAll('<', '&lt;')
-  //         .replaceAll('>', '&gt;'),
-  //       likesAmount: 0,
-  //       isLike: false,
-  //       date: output,
-  //     });
-  //   });
-  // },
+//       people.push({
+//         name: name.value.replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
+//         descr: commentText.value
+//           .replaceAll('<', '&lt;')
+//           .replaceAll('>', '&gt;'),
+//         likesAmount: 0,
+//         isLike: false,
+//         date: output,
+//       });
+//     });
+//   },
 };
 
 export { helper };

@@ -33,6 +33,70 @@ export function renderComments(people) {
 
   // }
 
+
+
+
+
+  // let date = new Date();
+  // let output = String(date.getDate()) + '.' + String(date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+
+//   console.log(comments.innerHTML);
+
+//   buttonElement.addEventListener('click', () => {
+//     if (name.value === "")
+//       {
+//         name.style.backgroundColor = '#ff7d7d';
+//         return;
+//       }
+//     if (commentText.value === "")
+//       {
+//         commentText.style.backgroundColor = '#ff7d7d';
+//         return;
+//       }
+//     const oldComments = comments.innerHTML;
+//     comments.innerHTML = oldComments + `<li class="comment">
+//         <div class="comment-header">
+//           <div>${name.value} </div>
+//           <div>${output}</div>
+//         </div>
+//         <div class="comment-body">
+//           <div class="comment-text">
+//             ${commentText.value}
+//           </div>
+//         </div>
+//         <div class="comment-footer">
+//           <div class="likes">
+//             <span class="likes-counter" id="likes-counter">0</span>
+//             <button class="like-button" id="likeButton"></button>
+//           </div>
+//         </div>`
+
+
+
+//   const people = [
+//     {
+//       name: "Глеб Фокин",
+//       descr: "Это будет первый комментарий на этой странице",
+//       likesAmount: 3,
+//       isLike: false,
+//       date: "12.02.22 12:18"
+//     },
+//     {
+//       name: "Варвара Н.",
+//       descr: "Мне нравится как оформлена эта страница! ❤",
+//       likesAmount: 76,
+//       isLike: true,
+//       date: "13.02.22 19:22"
+//     },
+//   ];
+
+// });
+
+
+
+
+
+
   console.log(people)
   const likesUlHTML = people
     .map((comment, index) => {
